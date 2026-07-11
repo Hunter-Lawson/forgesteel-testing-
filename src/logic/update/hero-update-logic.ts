@@ -451,7 +451,15 @@ export class HeroUpdateLogic {
 						break;
 					}
 
-					const abilityIDs = hero.class ? hero.class.abilities.map(a => a.id) : [];
+					const abilityIDs: string[] = [];
+					let heroClass = hero.class;
+					if (feature.data.classID) {
+						heroClass = SourcebookLogic.getClasses(sourcebooks).find(c => c.id === feature.data.classID) || null;
+					}
+					if (heroClass) {
+						const abilities = SourcebookLogic.getAbilitiesFromClass(heroClass, feature.data.source.fromClassAbilities, feature.data.source.fromSelectedSubclassAbilities, feature.data.source.fromUnselectedSubclassAbilities, feature.data.source.fromClassLevels, feature.data.source.fromSelectedSubclassLevels, feature.data.source.fromUnselectedSubclassLevels);
+						abilityIDs.push(...abilities.map(a => a.id));
+					}
 					feature.data.selectedIDs = oFeature.data.selectedIDs.filter(id => abilityIDs.includes(id));
 					break;
 				}
