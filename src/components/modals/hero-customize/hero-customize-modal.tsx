@@ -1,5 +1,5 @@
 import { Button, Flex, Popover, Segmented, Select, Space } from 'antd';
-import { Feature, FeatureAbility, FeatureAncestryFeatureChoice, FeatureBonus, FeatureCharacteristicBonus, FeatureClassAbility, FeatureConditionImmunity, FeatureDamageModifier, FeatureData, FeatureFollower, FeatureMovementMode, FeaturePerk, FeatureProficiency } from '@/models/feature';
+import { Feature, FeatureAbility, FeatureAncestryFeatureChoice, FeatureBonus, FeatureCharacteristicBonus, FeatureClassAbility, FeatureConditionImmunity, FeatureDamageModifier, FeatureData, FeatureFollower, FeatureMovementMode, FeaturePerk, FeatureProficiency, FeatureSize } from '@/models/feature';
 import { Ability } from '@/models/ability';
 import { AbilityEditPanel } from '@/components/panels/edit/ability-edit/ability-edit-panel';
 import { Characteristic } from '@/enums/characteristic';
@@ -308,6 +308,19 @@ export const HeroCustomizeModal = (props: Props) => {
 								block={true}
 								onClick={() => {
 									setMenuOpen(false);
+									addFeature(FactoryLogic.feature.createSize({
+										id: Utils.guid(),
+										sizeValue: 1,
+										sizeMod: 'M'
+									}));
+								}}
+							>
+								Size
+							</Button>
+							<Button
+								block={true}
+								onClick={() => {
+									setMenuOpen(false);
 									addFeature(FactoryLogic.feature.createSkillChoice({
 										id: Utils.guid(),
 										count: -1
@@ -488,6 +501,19 @@ export const HeroCustomizeModal = (props: Props) => {
 		const setProficiencyArmor = (value: KitArmor[]) => {
 			const copy = Utils.copy(feature) as FeatureProficiency;
 			copy.data.armor = value;
+			setFeature(feature.id, copy);
+		};
+
+		const setSizeValue = (value: number) => {
+			const copy = Utils.copy(feature) as FeatureSize;
+			copy.data.size.value = value;
+			copy.data.size.mod = value === 1 ? 'M' : '';
+			setFeature(feature.id, copy);
+		};
+
+		const setSizeMod = (value: 'T' | 'S' | 'M' | 'L') => {
+			const copy = Utils.copy(feature) as FeatureSize;
+			copy.data.size.mod = value;
 			setFeature(feature.id, copy);
 		};
 
@@ -683,6 +709,27 @@ export const HeroCustomizeModal = (props: Props) => {
 							value={feature.data.armor}
 							onChange={setProficiencyArmor}
 						/>
+					</div>
+				);
+			case FeatureType.Size:
+				return (
+					<div>
+						<HeaderText>Size</HeaderText>
+						<NumberSpin min={1} max={10} value={feature.data.size.value} onChange={setSizeValue} />
+						{
+							feature.data.size.value === 1 ?
+								<>
+									<HeaderText>Modifier</HeaderText>
+									<Segmented
+										block={true}
+										placeholder='Modifier'
+										options={[ 'T', 'S', 'M', 'L' ]}
+										value={feature.data.size.mod || 'M'}
+										onChange={setSizeMod}
+									/>
+								</>
+								: null
+						}
 					</div>
 				);
 		}
