@@ -23,6 +23,7 @@ import { Skill } from '@/models/skill';
 import { SkillList } from '@/enums/skill-list';
 import { Sourcebook } from '@/models/sourcebook';
 import { SourcebookLogic } from '@/logic/sourcebook-logic';
+import { TutorialMode } from '@/enums/tutorial-mode';
 import { Utils } from '@/utils/utils';
 
 export class MonsterLogic {
@@ -221,7 +222,7 @@ Your companion gains all the benefits of your kit, with the following exceptions
 			}
 		}
 
-		const simplified = FeatureLogic.simplifyFeatures(features.map(f => ({ feature: f, source: '', level: undefined })), monsterLevel).map(f => f.feature);
+		const simplified = FeatureLogic.simplifyFeatures(features.map(f => ({ feature: f, source: '', level: undefined })), monsterLevel, TutorialMode.Complete).map(f => f.feature);
 
 		const toAdd = features.filter(f => !simplified.map(sf => sf.id).includes(f.id));
 		return [ ...simplified, ...toAdd ];

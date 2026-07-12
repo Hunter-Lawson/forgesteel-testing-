@@ -15,6 +15,7 @@ import { Sourcebook } from '@/models/sourcebook';
 import { SourcebookData } from '@/data/sourcebook-data';
 import { SourcebookLogic } from '@/logic/sourcebook-logic';
 import { SourcebookType } from '@/enums/sourcebook-type';
+import { TutorialMode } from '@/enums/tutorial-mode';
 import { Utils } from '@/utils/utils';
 
 export class HeroUpdateLogic {
@@ -108,6 +109,10 @@ export class HeroUpdateLogic {
 
 		if (hero.features === undefined) {
 			hero.features = [];
+		}
+
+		if (hero.state.tutorialMode === undefined) {
+			hero.state.tutorialMode = TutorialMode.Complete;
 		}
 
 		hero.state.conditions.forEach(c => {
