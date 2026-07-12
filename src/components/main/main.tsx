@@ -53,8 +53,8 @@ import { HeroModalType } from '@/enums/hero-modal-type';
 import { HeroProjectsModal } from '@/components/modals/hero-projects/hero-projects-modal';
 import { HeroResourcesModal } from '@/components/modals/hero-resources/hero-resources-modal';
 import { HeroRespiteModal } from '@/components/modals/hero-respite/hero-respite-modal';
+import { HeroSettingsModal } from '@/components/modals/hero-settings/hero-settings-modal';
 import { HeroSheetPreviewPage } from '@/components/pages/heroes/hero-sheet/hero-sheet-preview-page';
-import { HeroSourcebooksModal } from '@/components/modals/hero-sourcebooks/hero-sourcebooks-modal';
 import { HeroTitlesModal } from '@/components/modals/hero-titles/hero-titles-modal';
 import { HeroUpdateLogic } from '@/logic/update/hero-update-logic';
 import { HeroViewPage } from '@/components/pages/heroes/hero-view/hero-view-page';
@@ -1682,9 +1682,9 @@ export const Main = (props: Props) => {
 					/>
 				);
 				break;
-			case HeroModalType.Sourcebooks:
+			case HeroModalType.Settings:
 				setDrawer(
-					<HeroSourcebooksModal
+					<HeroSettingsModal
 						hero={hero}
 						sourcebooks={sourcebooks}
 						allSourcebooks={SourcebookLogic.getSourcebooks(homebrewSourcebooks)}

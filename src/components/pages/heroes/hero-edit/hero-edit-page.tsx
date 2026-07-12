@@ -32,6 +32,7 @@ import { Sourcebook } from '@/models/sourcebook';
 import { SourcebookLogic } from '@/logic/sourcebook-logic';
 import { StartSection } from '@/components/pages/heroes/hero-edit/start-section/start-section';
 import { SubClass } from '@/models/subclass';
+import { TutorialMode } from '@/enums/tutorial-mode';
 import { Utils } from '@/utils/utils';
 import { useIsSmall } from '@/hooks/use-is-small';
 import { useNavigation } from '@/hooks/use-navigation';
@@ -377,6 +378,13 @@ export const HeroEditPage = (props: Props) => {
 		setDirty(true);
 	};
 
+	const setTutorialMode = (value: TutorialMode) => {
+		const heroCopy = Utils.copy(hero);
+		heroCopy.state.tutorialMode = value;
+		setHero(heroCopy);
+		setDirty(true);
+	};
+
 	const setSettingIDs = (settingIDs: string[]) => {
 		const heroCopy = Utils.copy(hero);
 		heroCopy.sourcebookIDs = settingIDs;
@@ -587,6 +595,7 @@ export const HeroEditPage = (props: Props) => {
 						setName={setName}
 						setPicture={setPicture}
 						setFolder={setFolder}
+						setTutorialMode={setTutorialMode}
 						setFeatureData={setFeatureData}
 					/>
 				);

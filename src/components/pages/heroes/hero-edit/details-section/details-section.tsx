@@ -1,4 +1,4 @@
-import { Alert, AutoComplete, Button, Flex, Space, Upload } from 'antd';
+import { AutoComplete, Button, Flex, Space, Upload } from 'antd';
 import { Collections } from '@/utils/collections';
 import { DangerButton } from '@/components/controls/danger-button/danger-button';
 import { DownloadOutlined } from '@ant-design/icons';
@@ -10,10 +10,13 @@ import { FeatureType } from '@/enums/feature-type';
 import { HeaderText } from '@/components/controls/header-text/header-text';
 import { Hero } from '@/models/hero';
 import { HeroLogic } from '@/logic/hero-logic';
+import { HeroTutorialPanel } from '@/components/panels/hero-tutorial/hero-tutorial-panel';
+import { Info } from '@/components/controls/info/info';
 import { NameSuggestions } from '@/components/panels/name-suggestions/name-suggestions';
 import { SelectablePanel } from '@/components/controls/selectable-panel/selectable-panel';
 import { Sourcebook } from '@/models/sourcebook';
 import { TextInput } from '@/components/controls/text-input/text-input';
+import { TutorialMode } from '@/enums/tutorial-mode';
 import { Utils } from '@/utils/utils';
 import { useHeroes } from '@/contexts/data-context';
 
@@ -25,6 +28,7 @@ interface DetailsSectionProps {
 	setName: (value: string) => void;
 	setPicture: (value: string | null) => void;
 	setFolder: (value: string) => void;
+	setTutorialMode: (value: TutorialMode) => void;
 	setFeatureData: (featureID: string, data: FeatureData) => void;
 }
 
@@ -85,7 +89,11 @@ export const DetailsSection = (props: DetailsSectionProps) => {
 					}
 				</SelectablePanel>
 				<SelectablePanel>
-					<HeaderText>Folder</HeaderText>
+					<HeaderText
+						extra={<Info>You can add your hero to a folder to group it with other heroes.</Info>}
+					>
+						Folder
+					</HeaderText>
 					<AutoComplete
 						options={Collections.distinct(folders, f => f).map(option => ({ value: option, label: option }))}
 						optionRender={o => <div className='ds-text'>{o.data.label}</div>}
@@ -96,13 +104,9 @@ export const DetailsSection = (props: DetailsSectionProps) => {
 						onSelect={props.setFolder}
 						onChange={props.setFolder}
 					/>
-					<div className='ds-text'>
-						<Alert
-							type='info'
-							showIcon={true}
-							title='You can add your hero to a folder to group it with other heroes.'
-						/>
-					</div>
+				</SelectablePanel>
+				<SelectablePanel>
+					<HeroTutorialPanel value={props.hero.state.tutorialMode} onChange={props.setTutorialMode} />
 				</SelectablePanel>
 			</div>
 			<div className='hero-edit-content-column selected'>

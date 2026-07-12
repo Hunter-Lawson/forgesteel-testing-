@@ -65,6 +65,7 @@ import { TerrainCategory } from '@/enums/terrain-category';
 import { TerrainRoleType } from '@/enums/terrain-role-type';
 import { Tip } from '@/models/tip';
 import { Title } from '@/models/title';
+import { TutorialMode } from '@/enums/tutorial-mode';
 import { Utils } from '@/utils/utils';
 
 export class FactoryLogic {
@@ -102,6 +103,7 @@ export class FactoryLogic {
 
 	static createHeroState = (): HeroState => {
 		return {
+			tutorialMode: TutorialMode.Complete,
 			staminaDamage: 0,
 			staminaTemp: 0,
 			recoveriesUsed: 0,
